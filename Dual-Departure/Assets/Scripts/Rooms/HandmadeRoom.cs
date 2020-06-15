@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanController : PlayerController
+public class HandmadeRoom : baseRoom
 {
-   
-    
     // Start is called before the first frame update
     void Start()
     {

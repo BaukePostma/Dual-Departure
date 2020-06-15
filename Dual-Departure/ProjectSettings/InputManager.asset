@@ -343,10 +343,10 @@ InputManager:
     joyNum: 0
   - serializedVersion: 3
     m_Name: 2-Interact
-    descriptiveName: k
+    descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: u
+    positiveButton: o
     altNegativeButton: 
     altPositiveButton: 
     gravity: 3

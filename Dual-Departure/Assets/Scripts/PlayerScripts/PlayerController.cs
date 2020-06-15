@@ -18,11 +18,17 @@ public  class PlayerController : MonoBehaviour
     public List<BaseTool> toolList;
     public bool IsHuman;
 
+    //Controls
     protected string HorizontalAxis = "Horizontal";
     protected string VerticalAxis = "Vertical";
     protected string Interact = "Interac;";
 
+    //Interact
+    private float interactCooldown = 0.5f;
+    private float interactCooldownCounter;
 
+    // Death & Restart
+    private bool isDying;
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -33,19 +39,20 @@ public  class PlayerController : MonoBehaviour
         {
             HorizontalAxis = "Horizontal";
             VerticalAxis = "Vertical";
-            Interact = "Interact;";
+            Interact = "Interact";
         }
         else
         {
             HorizontalAxis = "2-Horizontal";
             VerticalAxis = "2-Vertical";
-            Interact = "2-Interact;";
+            Interact = "2-Interact";
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Movement logic , move this to a seperate class later
         isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
 
         if (isGrounded && Velocity.y < 0)
@@ -73,20 +80,76 @@ public  class PlayerController : MonoBehaviour
             // Rotation
             Vector3 rotVector = new Vector3(Movement.x - 90, 0f, Movement.z);
             var RotationDriveMode = Quaternion.LookRotation(Movement);
-            character.transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
+            //character.transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
+            transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
 
+
+        }
+
+        // Interact logic
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            //Debug.Log("HIT");
+
+            InteractUpdate(hit);
+            HighlightUpdate(hit);
+
+            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
+        }
+
+        interactCooldownCounter += Time.deltaTime;
+
+        //Death Logic
+        if (isDying)
+        {
+
+            transform.Rotate(transform.position, 15);
         }
     }
 
-    private void FixedUpdate()
+    private void InteractUpdate(RaycastHit hit)
     {
+        if (Input.GetAxisRaw(Interact) == 1)
+        {
+            //Debug.Log(Interact + " pressed.Time since last interact: " + interactCooldownCounter );
+            if (interactCooldownCounter >= interactCooldown)
+            {
+                interactCooldownCounter = 0;
+              //  Debug.Log("Interacting. Time since last interact: " + interactCooldownCounter);
+                if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<IInteractable>().Interact(this.gameObject);
+                }
+            }
+        }
 
+        else
+        {
+            return;
+        }
+    }
+    private void HighlightUpdate(RaycastHit hit)
+    {
+            
+        if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
+        {
+            hit.collider.gameObject.GetComponent<IInteractable>().Highlight(this.gameObject);
+        }
+    }
 
-    //    Vector3 Movement = new Vector3(moveHorizontal, 0, moveVertical);
-    //    //  character.GetComponent<Rigidbody>().AddForce( Movement * Speed * Time.deltaTime);
-    //    Vector3 charPos = character.GetComponent<Rigidbody>().transform.position;
-    //    Vector3 target = charPos + Movement;
-    //    character.GetComponent<Rigidbody>().MovePosition(Movement * Speed * Time.deltaTime);
+    private RaycastHit CheckForward()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("HIT");
+
+            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
+        }
+        return hit;
     }
 
     public void PickUpTool(BaseTool tool)
@@ -108,6 +171,10 @@ public  class PlayerController : MonoBehaviour
         }
         return false;
  
+    }
+    public void Kill()
+    {
+        isDying = true; 
     }
 
 }

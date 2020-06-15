@@ -13,6 +13,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("testingEnviroment");
     }
+    public void LoadDemoLevel()
+    {
+        SceneManager.LoadScene("Level1");
+    }
     public void QuitGame()
     {
         Application.Quit();
