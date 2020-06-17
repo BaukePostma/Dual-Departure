@@ -4,6 +4,7 @@ using UnityEngine;
 
 public  class PlayerController : MonoBehaviour
 {
+    private GameState state;
     // Movement variables
     Vector3 Velocity;
     public float Speed = 5f;
@@ -34,19 +35,15 @@ public  class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         //  HorizontalAxis = PlayerPrefs.GetString("HorizontalAxis", "Horizontal");
         //  HorizontalAxis = PlayerPrefs.GetString("VerticalAxis", "Vertical");
+        state = GameState.Instance;
 
-        if (IsHuman)
-        {
-            HorizontalAxis = "Horizontal";
-            VerticalAxis = "Vertical";
-            Interact = "Interact";
-        }
-        else
-        {
-            HorizontalAxis = "2-Horizontal";
-            VerticalAxis = "2-Vertical";
-            Interact = "2-Interact";
-        }
+        string controls = state.GetControls(IsHuman);
+        Debug.Log(state.single);
+        state.single = "LoadDemo";
+        //Debug.Log(state.single);
+        SetPlayerControls();
+        Debug.Log("Controls: " + controls);
+       
     }
 
     // Update is called once per frame
@@ -176,5 +173,32 @@ public  class PlayerController : MonoBehaviour
     {
         isDying = true; 
     }
+    private void SetPlayerControls()
+    {
+        //if (IsHuman)
+        //{
+        //    HorizontalAxis = "Horizontal";
+        //    VerticalAxis = "Vertical";
+        //    Interact = "Interact";
+        //}
+        //else
+        //{
+        //    HorizontalAxis = "2-Horizontal";
+        //    VerticalAxis = "2-Vertical";
+        //    Interact = "2-Interact";
+        //}
 
+        if (IsHuman)
+        {
+            HorizontalAxis = "Horizontal";
+            VerticalAxis = "Vertical";
+            Interact = "Interact";
+        }
+        else if (state.currentMode == GameState.GameMode.LocalMultiplayer)
+        {
+            HorizontalAxis = "2-Horizontal";
+            VerticalAxis = "2-Vertical";
+            Interact = "2-Interact";
+        }
+    }
 }

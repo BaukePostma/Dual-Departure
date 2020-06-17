@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5303167526293463424}
   - component: {fileID: 5303167526293463484}
   - component: {fileID: 5303167526293463427}
+  - component: {fileID: 7063520518672227703}
   m_Layer: 0
   m_Name: PickupModel
   m_TagString: Untagged
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e0cb43d0233a1a644baca9166551f37b, type: 2}
+  - {fileID: 2100000, guid: a7001d60f5b2f4444ba78293ca069406, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -125,3 +126,15 @@ MonoBehaviour:
   ToolName: Heavy Plate
   ToolDescription: Lets the user press heavy plates
   ForHuman: 1
+--- !u!114 &7063520518672227703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303167526293463430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc2b85172f8a89e41b2dedee4677d5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
