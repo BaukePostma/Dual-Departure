@@ -8,16 +8,29 @@ public class PressurePlateDetector : MonoBehaviour
     private Collider trigger;
     public GameObject TargetToDetect;
     public Doorway PlatePressedTarget;
+
+    private bool isSinking;
+    private Vector3 origPos;
     // Start is called before the first frame update
     void Start()
     {
+        origPos = transform.position;
         trigger = this.GetComponent<Collider>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //trigger.Ont
+        if (isSinking)
+        {
+            //Slowly move the pressure plate down
+            transform.position -= new Vector3(0, 0.15f, 0) * Time.deltaTime;
+            float heightDifference = origPos.y - transform.position.y;
+            if (heightDifference > origPos.y)
+            {
+                isSinking = false;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -28,13 +41,15 @@ public class PressurePlateDetector : MonoBehaviour
         {
             Debug.Log("Target detected");
             PlatePressedTarget.Activate();
+            Sink();
         }
-
-        if(other.tag == "Boulder")
-        {
-            Debug.Log("Hit a boulder");
-            //other.GetComponent<render>
-        }
-     
+    }
+    private void Sink()
+    {
+        isSinking = true;
+    }
+    public void ResetPlate()
+    {
+        
     }
 }

@@ -7,8 +7,18 @@ using UnityEngine;
 /// </summary>
 public abstract class BaseTool : MonoBehaviour
 {
-    public string ToolName = "Default Name";
-    public string ToolDescription = "Default Description";
-    public bool ForHuman;
+    protected string toolName = "Default Name";
+    protected string toolDescription = "Default Description";
+    public string spritePath;
+    public bool forHuman;
 
+    public string getName()
+    {
+        return toolName;
+    }
+    public string getDescription()
+    {
+        return toolDescription;
+    }
 }
+

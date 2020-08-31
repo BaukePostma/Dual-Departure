@@ -4,19 +4,10 @@ using UnityEngine;
 
 public abstract class ActiveTool : BaseTool
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Use(PlayerController player)
     {
-        
-    }
-    void Use()
-    {
-        Debug.Log("Using" + this.ToolName);
+        Debug.Log("Using" + this.toolName);
+        Debug.Log("Used by " + player.tag);
     }
 }

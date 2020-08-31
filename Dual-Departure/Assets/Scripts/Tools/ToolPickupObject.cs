@@ -23,7 +23,7 @@ public class ToolPickupObject : MonoBehaviour
     private void OnTriggerEnter(Collider collision)
     {
         Debug.Log("Collision");
-        if (collision.gameObject.tag == "Human" && tool.ForHuman == true || collision.gameObject.tag == "Robot" && tool.ForHuman == false)
+        if (collision.gameObject.tag == "Human" && tool.forHuman == true || collision.gameObject.tag == "Robot" && tool.forHuman == false)
         {
             collision.gameObject.GetComponent<PlayerController>().PickUpTool(this.tool);
             Destroy(this.gameObject);

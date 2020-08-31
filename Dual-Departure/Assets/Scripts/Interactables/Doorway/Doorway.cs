@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Doorway : MonoBehaviour
+public class Doorway : MonoBehaviour, IActivatable
 {
     /// <summary>
     /// A doorway object handles transitions between two rooms
@@ -20,16 +20,40 @@ public class Doorway : MonoBehaviour
     private bool humanPlayerIn;
     private bool robotPlayerIn;
 
+    public GameState gameState;
+
     private void Transition(int index)
     {
         // Transition to new level index
         SceneManager.LoadSceneAsync(index);
     }
+    void Start()
+    {
+        gameState = GameState.Instance;
+
+        if (isActive)
+        {
+            DoorwayTrigger.SetActive(true);
+        }
+        else
+        {
+            DoorwayTrigger.SetActive(false);
+        }
+    }
 
     private void Transition()
     {
+        if (!string.IsNullOrWhiteSpace(DebugLevelLoadString))
+        {
+            gameState.Loader.LoadLevel(DebugLevelLoadString);
+        }
+        else
+        {
+            gameState.Loader.LoadNextLevel();
+        }
         // TTemp
-        SceneManager.LoadSceneAsync(DebugLevelLoadString);
+     
+       // SceneManager.LoadSceneAsync(DebugLevelLoadString);
     }
     public void TriggerEnter(Collider other)
     {
@@ -80,10 +104,28 @@ public class Doorway : MonoBehaviour
         this.isActive = true;
         OpenDoor();
     }
+    public void Toggle()
+    {
+        if (isActive)
+        {
+            isActive = false;
+            CloseDoor();
+        }
+        else
+        {
+            Debug.Log("Doorway Activated");
+            isActive = true;
+            OpenDoor();
+        }
+    }
     private void OpenDoor()
     {
-        this.Door.transform.position += new Vector3(0, 1, 0);
+        //this.Door.transform.position += new Vector3(0, 1, 0);
         this.DoorwayTrigger.SetActive(true);
     }
-
+    private void CloseDoor()
+    {
+        //this.Door.transform.position += new Vector3(0, 1, 0);
+        this.DoorwayTrigger.SetActive(false);
+    }
 }

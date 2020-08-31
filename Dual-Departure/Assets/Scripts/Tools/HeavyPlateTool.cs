@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class HeavyPlateTool : PassiveTool
 {
+   
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        toolName = "Heavy Plate Armour";
+        toolDescription = "Protects the wearer from harmfull lasers";
+       // spritePath = 'no';
+        forHuman = false;
     }
 }

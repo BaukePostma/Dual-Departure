@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GasValve : MonoBehaviour, IInteractable
+public class GasValve : baseInteractable
 {
     public GasLeak[] leaks;
-    public void Highlight(GameObject player)
-    {
-        
-    }
+    public Animator anim;
 
-    public void Interact(GameObject player)
+    public override void Interact(PlayerController player)
     {
+        anim.SetTrigger("Spin");
         Debug.Log("Interact called");
         foreach (var leak in leaks)
         {
@@ -19,15 +17,4 @@ public class GasValve : MonoBehaviour, IInteractable
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

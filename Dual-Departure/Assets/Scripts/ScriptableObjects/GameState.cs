@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameState : ScriptableObject
 {
+
     //Singleton code
     private static GameState _instance;
     public static GameState Instance {
@@ -18,6 +19,24 @@ public class GameState : ScriptableObject
         } }
     private GameState() { }
 
+    // Keep a reference to the levelloader in the current scene
+    private  LevelLoader _loader;
+    public LevelLoader Loader
+    {
+        get
+        {
+            if (!_loader)
+                _loader = FindObjectOfType<LevelLoader>();
+            if (!_loader)
+                _loader = Instantiate(Resources.Load<LevelLoader>("LevelLoader")); 
+            // _instance = Resources.FindObjectsOfTypeAll<GameState>();
+            //if (!_loader)
+            //    _loader = CreateInstance<LevelLoader>();
+            return _loader;
+        }
+    }
+
+    // Gamestate logic to keep track of across screens
     public enum GameMode
     {
         Singleplayer,
@@ -30,36 +49,45 @@ public class GameState : ScriptableObject
         Solver,
         ToMBuddy
     }
-
     public AIType currentAi;// = AIType.Solver;
-    public GameMode currentMode;// = GameMode.Singleplayer;
+    public GameMode currentMode = GameMode.LocalMultiplayer;
+    // For multiplayer, keep track of the current players character for UI purposes
+    public bool isCurrentPlayerHuman = true;
 
-    public string single = "Default";
+    // Keep track of tools during level swittches
+    private BaseTool[] humanToolList;
+    private ActiveTool humanActiveTool;
+    private BaseTool[] robotToolList;
+    private ActiveTool robotActiveTool;
 
-     //* Possible game states: 
-     //* Singleplayer
-     //*      --CurrentAIType
-     //*      --
-     //* Multiplayer
-
-    public string GetControls(bool isHuman)
+    public void SaveToolLists(BaseTool[] humanTools, BaseTool[] robotTools)
     {
-        if (isHuman)
-        {
-            return "WASD";
-        }
-        else
-        {
-            if (currentMode == GameMode.LocalMultiplayer)
-            {
-                return "IJKL";
-            }
-            else if (currentMode == GameMode.OnlineMultiplayer)
-            {
-               
-            }
-        }
-        Debug.Log("STATE: " + currentMode);
-        return "Something";
+        this.humanToolList = humanTools;
+        this.robotToolList = robotTools;
+    }
+    public void SaveHumanActiveTool(ActiveTool humanActiveTool)
+    {
+        this.humanActiveTool = humanActiveTool;
+    }
+    public void SaveRobotActiveTool(ActiveTool robotActiveTool)
+    {
+        this.robotActiveTool = robotActiveTool;
+    }
+
+    public BaseTool[] getHumanTools()
+    {
+        return this.humanToolList;
+    }
+    public ActiveTool getHumanActiveTool()
+    {
+        return this.humanActiveTool;
+    }
+    public BaseTool[] getRobotTools()
+    {
+        return this.robotToolList;
+    }
+    public ActiveTool getRobotActiveTool()
+    {
+        return this.robotActiveTool;
     }
 }

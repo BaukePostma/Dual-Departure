@@ -112,7 +112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2707012238082268882
 Transform:
   m_ObjectHideFlags: 0
@@ -247,8 +247,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Door: {fileID: 2707012237620205272}
   DoorwayTrigger: {fileID: 2707012238082268883}
-  DebugLevelLoadNumber: 0
+  DebugLevelLoadString: 
   isActive: 0
+  gameState: {fileID: 0}
 --- !u!1 &3514872672872955970
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,17 +277,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3514872672872955970}
-  m_LocalRotation: {x: 0.31358635, y: -0, z: -0, w: 0.9495597}
-  m_LocalPosition: {x: 0, y: 0, z: -1.22}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2707012238358051981}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 36.551003, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.7, y: 0.97}
-  m_SizeDelta: {x: 20, y: 5}
+  m_AnchoredPosition: {x: 8.32, y: 1.01}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &9076145353899486704
 MeshRenderer:

@@ -40,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7105289839439855193}
   - component: {fileID: 7105289839439855192}
-  - component: {fileID: 7105289839439855195}
   - component: {fileID: 7105289839439855142}
   m_Layer: 0
   m_Name: Human
@@ -58,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 7105289839439855194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 7105289838868719304}
   - {fileID: 7248816215053789042}
@@ -78,29 +77,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f06aed2dca1be44ad477c0f0dfe8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
   groundcheck: {fileID: 7105289838868719304}
-  groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  gravity: -9.81
   character: {fileID: 5963801826909853025}
-  characterController: {fileID: 7105289839439855142}
+  characterController: {fileID: 0}
   toolList: []
-  IsHuman: 1
---- !u!114 &7105289839439855195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7105289839439855194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7d425401c619484c949415c993400de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  IsHumanChracter: 1
+  IsControlledByAI: 0
 --- !u!143 &7105289839439855142
 CharacterController:
   m_ObjectHideFlags: 0
@@ -144,7 +129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8591478471309532634}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.42, z: 0.031}
+  m_LocalPosition: {x: 0, y: 0.757, z: 0.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7105289839439855193}
@@ -162,8 +147,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 0.9528302, g: 0.68709743, b: 0.20225172, a: 1}
-  m_Intensity: 1.5
-  m_Range: 10
+  m_Intensity: 10
+  m_Range: 6
   m_SpotAngle: 38.5
   m_InnerSpotAngle: 16.8
   m_CookieSize: 10

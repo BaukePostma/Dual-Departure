@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6830299104343849975}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.3, z: 1.3}
   m_Children:
   - {fileID: 1995283846448856765}
   - {fileID: 6830299105112236901}
@@ -48,17 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f06aed2dca1be44ad477c0f0dfe8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
   groundcheck: {fileID: 6830299105112236901}
-  groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  gravity: -9.81
   character: {fileID: 3309008619873127598}
   characterController: {fileID: 0}
   toolList: []
-  IsHuman: 0
+  IsHumanChracter: 0
+  IsControlledByAI: 0
 --- !u!114 &6830299104343849974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,7 +142,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7370526151602174422}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.42, z: 0.031}
+  m_LocalPosition: {x: 0, y: 1.29, z: 0.031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6830299104343849972}
@@ -162,8 +160,8 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 1.5
-  m_Range: 10
+  m_Intensity: 10
+  m_Range: 6
   m_SpotAngle: 38.5
   m_InnerSpotAngle: 16.8
   m_CookieSize: 10

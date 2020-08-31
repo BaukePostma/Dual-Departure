@@ -1,160 +1,155 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public  class PlayerController : MonoBehaviour
 {
     private GameState state;
-    // Movement variables
-    Vector3 Velocity;
-    public float Speed = 5f;
-    public Transform groundcheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-    public float gravity = -9.81f;
-    bool isGrounded;
 
-    public GameObject character;
-    public CharacterController characterController;
+    // Movement variables
+    public Transform groundcheck;
+    public LayerMask groundMask;
+
+    //public GameObject character;
+    //public CharacterController characterController;
+    //Tools
     public List<BaseTool> toolList;
-    public bool IsHuman;
+    private ActiveTool activeTool;
+    public bool IsHumanChracter;
+    private GameObject objToolList;
+    private float toolCountdown = 0.5f;
+    private float toolCountdownCounter;
+
+    //AI TEST
+    public bool IsControlledByAI;
 
     //Controls
-    protected string HorizontalAxis = "Horizontal";
-    protected string VerticalAxis = "Vertical";
-    protected string Interact = "Interac;";
+    protected string HorizontalAxis;// = "Horizontal";
+    protected string VerticalAxis;// = "Vertical";
+    protected string Interact; //= "Interac;";
+    protected string UseTool; //= "Interac;";
+
+    private baseMovement PlayerMovement;
 
     //Interact
-    private float interactCooldown = 0.5f;
+    private const float interactCooldown = 0.5f;
     private float interactCooldownCounter;
 
     // Death & Restart
     private bool isDying;
+   // private LevelLoader loader;
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
-        //  HorizontalAxis = PlayerPrefs.GetString("HorizontalAxis", "Horizontal");
-        //  HorizontalAxis = PlayerPrefs.GetString("VerticalAxis", "Vertical");
-        state = GameState.Instance;
+        //loader
 
-        string controls = state.GetControls(IsHuman);
-        Debug.Log(state.single);
-        state.single = "LoadDemo";
-        //Debug.Log(state.single);
         SetPlayerControls();
-        Debug.Log("Controls: " + controls);
+        state = GameState.Instance;
+        if (IsControlledByAI)
+        {
+            // Load brain or something
+            PlayerMovement = gameObject.AddComponent<RobotMovement>();
+        }
+        else
+        {
+            SetPlayerControls();
+            PlayerMovement = gameObject.AddComponent<HumanMovement>();
+        }
+       
+        
+
+        // Initialise controls
+
+        PlayerMovement.groundcheck = groundcheck;
+        PlayerMovement.groundMask = groundMask;
+        PlayerMovement.HorizontalAxis = HorizontalAxis;
+        PlayerMovement.VerticalAxis = VerticalAxis;
+       // PlayerMovement.Interact = Interact;
+        //PlayerMovement.UseTool = UseTool;
+
        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (this.transform.position.y < -5)
+        {
+            Kill();
+        }
         // Movement logic , move this to a seperate class later
-        isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
 
-        if (isGrounded && Velocity.y < 0)
-        {
-            Velocity.y = -2f;
-        }
-
-        float moveHorizontal = Input.GetAxisRaw(HorizontalAxis);
-        float moveVertical = Input.GetAxisRaw(VerticalAxis);
-        Vector3 Movement = new Vector3(moveHorizontal, 0, moveVertical).normalized;
-
-        characterController.Move(Movement * Speed * Time.deltaTime);
-        characterController.Move(Velocity  * Time.deltaTime);
-
-
-        // Movement.x -= 90;
-
-        transform.position += Movement * Speed * Time.deltaTime;
-       // Debug.Log(transform.position);
-        Velocity.y += gravity * Time.deltaTime;
-        //transform.localRotation = Quaternion.LookRotation(Movement).normalized;
-
-        if (Movement.magnitude > 0.1)
-        {
-            // Rotation
-            Vector3 rotVector = new Vector3(Movement.x - 90, 0f, Movement.z);
-            var RotationDriveMode = Quaternion.LookRotation(Movement);
-            //character.transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
-            transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
-
-
-        }
+        // PlayerMovement.Move();
 
         // Interact logic
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
+        CheckForObject(Input.GetAxisRaw(Interact));
+
+        if (Input.GetAxisRaw(UseTool) == 1 && activeTool != null && toolCountdownCounter >= toolCountdown)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            //Debug.Log("HIT");
-
-            InteractUpdate(hit);
-            HighlightUpdate(hit);
-
-            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
+            toolCountdownCounter = 0;
+            UseActiveTool();
         }
 
-        interactCooldownCounter += Time.deltaTime;
-
-        //Death Logic
-        if (isDying)
-        {
-
-            transform.Rotate(transform.position, 15);
-        }
+        toolCountdownCounter += Time.deltaTime;
     }
 
     private void InteractUpdate(RaycastHit hit)
     {
-        if (Input.GetAxisRaw(Interact) == 1)
+
+        //Debug.Log(Interact + " pressed.Time since last interact: " + interactCooldownCounter );
+        if (interactCooldownCounter >= interactCooldown)
         {
-            //Debug.Log(Interact + " pressed.Time since last interact: " + interactCooldownCounter );
-            if (interactCooldownCounter >= interactCooldown)
-            {
-                interactCooldownCounter = 0;
+            interactCooldownCounter = 0;
               //  Debug.Log("Interacting. Time since last interact: " + interactCooldownCounter);
-                if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
+                if (hit.collider.gameObject.GetComponent<baseInteractable>() != null)
                 {
-                    hit.collider.gameObject.GetComponent<IInteractable>().Interact(this.gameObject);
+                    hit.collider.gameObject.GetComponent<baseInteractable>().Interact(this);
                 }
-            }
         }
 
-        else
-        {
-            return;
-        }
     }
     private void HighlightUpdate(RaycastHit hit)
     {
             
-        if (hit.collider.gameObject.GetComponent<IInteractable>() != null)
+        if (hit.collider.gameObject.GetComponent<baseInteractable>() != null)
         {
-            hit.collider.gameObject.GetComponent<IInteractable>().Highlight(this.gameObject);
+            hit.collider.gameObject.GetComponent<baseInteractable>().Highlight(this);
         }
     }
 
-    private RaycastHit CheckForward()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("HIT");
+    //private RaycastHit CheckForward()
+    //{
+    //    RaycastHit hit;
+    //    if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
+    //    {
+    //        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+    //        Debug.Log("HIT");
 
-            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
-        }
-        return hit;
+    //        // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
+    //    }
+    //    return hit;
+    //}
+    public void UseActiveTool()
+    {
+        Debug.Log("UseActiveTool Called");
+        activeTool.Use(this);
     }
 
     public void PickUpTool(BaseTool tool)
     {
-        toolList.Add(tool);
-        if (tool is ActiveTool)
-        {
+        //Type type = typeof(MyObject<>).MakeGenericType(objectType);
+        // Type type = tool.GetType();
+        Type type = tool.GetType();
+        // BaseTool newTool = (BaseTool)Activator.CreateInstance(type);
 
+        BaseTool newTool = gameObject.AddComponent(type) as BaseTool;
+
+        //objToolList.AddComponent<Type>();
+
+        toolList.Add(newTool);
+        if (newTool is ActiveTool)
+        {
+            activeTool = newTool as ActiveTool;
         }
     }
     public bool HasTool(BaseTool tool)
@@ -169,10 +164,63 @@ public  class PlayerController : MonoBehaviour
         return false;
  
     }
+    /**
+     * Compares the input string to the c# classnames of collected tools
+     * */
+    public bool HasTool(string toolClassName)
+    {
+
+        foreach (var collectedTool in toolList)
+        {
+            if (collectedTool.GetType().Name == toolClassName)
+            {
+                return true;
+            }
+        }
+        return false;
+
+    }
     public void Kill()
     {
-        isDying = true; 
+        isDying = true;
+        PlayerMovement.isDying = true;
+
+        state.Loader.ResetLevel(2f);
     }
+    /// <summary>
+    /// AI-specific move function. Needed for ML-agents
+    /// </summary>
+    public void MoveRobot(float horizontal, float vertical)
+    {
+
+        PlayerMovement.MoveCharacter(horizontal, vertical);
+    }
+    public void CheckForObject( float interactAxisInput)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2.5f))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            //Debug.Log("HIT");
+            //  interactAxisInput
+            if (interactAxisInput == 1)
+            {
+                InteractUpdate(hit);
+            }
+              
+            HighlightUpdate(hit);
+
+            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
+        }
+
+        interactCooldownCounter += Time.deltaTime;
+       // toolCountdownCounter += Time.deltaTime;
+    }
+
+    /// <summary>
+    /// Confige this controller to use the correct Unity horizontal, vertical and interact axi's
+    /// 
+    /// </summary>
     private void SetPlayerControls()
     {
         //if (IsHuman)
@@ -188,17 +236,20 @@ public  class PlayerController : MonoBehaviour
         //    Interact = "2-Interact";
         //}
 
-        if (IsHuman)
+        if (IsHumanChracter)
         {
             HorizontalAxis = "Horizontal";
             VerticalAxis = "Vertical";
             Interact = "Interact";
+            UseTool = "UseTool";
         }
-        else if (state.currentMode == GameState.GameMode.LocalMultiplayer)
+        else //if (state.currentMode == GameState.GameMode.LocalMultiplayer)
         {
             HorizontalAxis = "2-Horizontal";
             VerticalAxis = "2-Vertical";
             Interact = "2-Interact";
+            UseTool = "2-UseTool";
+
         }
     }
 }
