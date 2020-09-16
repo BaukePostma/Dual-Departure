@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Doorway : MonoBehaviour, IActivatable
+public class Doorway :  AbstractActivatable
 {
     /// <summary>
     /// A doorway object handles transitions between two rooms
@@ -14,7 +14,7 @@ public class Doorway : MonoBehaviour, IActivatable
     public GameObject DoorwayTrigger;
 
     public string DebugLevelLoadString;
-    public bool isActive;
+ 
    
 
     private bool humanPlayerIn;
@@ -90,7 +90,7 @@ public class Doorway : MonoBehaviour, IActivatable
         }
     }
 
-    public void Activate()
+    public override void Activate()
     {
         Debug.Log("Doorway Activated");
         this.isActive = true;

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IActivatable 
+public abstract class AbstractActivatable : MonoBehaviour
 {
-    void Activate();
+    public bool isActive;
+    public abstract void Activate();
+ 
 }

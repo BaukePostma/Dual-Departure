@@ -7,7 +7,8 @@ public class PressurePlateDetector : MonoBehaviour
     //  public Collider trigger;
     private Collider trigger;
     public GameObject TargetToDetect;
-    public Doorway PlatePressedTarget;
+
+    public AbstractActivatable PlatePressedTarget;
 
     private bool isSinking;
     private Vector3 origPos;
@@ -33,10 +34,9 @@ public class PressurePlateDetector : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private  void OnTriggerEnter(Collider other)
     {
-        // Check if other === CustomCollider
-        // If true, call Trigger()
+        // Check if other === TargetToDetect.  If true, call Activate() on other.
         if (GameObject.ReferenceEquals(other.gameObject, TargetToDetect))
         {
             Debug.Log("Target detected");
@@ -44,12 +44,10 @@ public class PressurePlateDetector : MonoBehaviour
             Sink();
         }
     }
+
     private void Sink()
     {
         isSinking = true;
     }
-    public void ResetPlate()
-    {
-        
-    }
+
 }

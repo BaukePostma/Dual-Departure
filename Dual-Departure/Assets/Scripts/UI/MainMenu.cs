@@ -9,10 +9,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        //  state = ScriptableObject.CreateInstance<GameState>();
         state = GameState.Instance;
     }
-
     
     public void LoadSinglePlayerLevel()
     {

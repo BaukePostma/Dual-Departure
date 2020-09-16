@@ -21,13 +21,6 @@ public class GasLeak : MonoBehaviour
             gas.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
- 
-      
-    }
     public void Toggle()
     {
         Debug.Log("Toggle called");
@@ -56,16 +49,16 @@ public class GasLeak : MonoBehaviour
         if (isActive == true && other.gameObject.tag == "Human")
         {
             other.GetComponent<PlayerController>().Kill();
-            gameState.Loader.ResetLevel(2);
+           // gameState.Loader.ResetLevel(2);
 
         }else if (isActive == true && other.gameObject.GetComponent<PushableBoulder>())
         {
             other.gameObject.GetComponent<PushableBoulder>().ApplyForce(this.transform.forward);
         }
     }
-    IEnumerator ResetLevel()
-    {
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    //IEnumerator ResetLevel()
+    //{
+    //    yield return new WaitForSeconds(2);
+    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    //}
 }
