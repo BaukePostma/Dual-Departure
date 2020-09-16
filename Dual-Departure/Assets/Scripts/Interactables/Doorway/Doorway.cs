@@ -62,13 +62,10 @@ public class Doorway : MonoBehaviour, IActivatable
         {
             if (other.gameObject.tag == "Human")
             {
-                Debug.Log("Human is IN");
                 humanPlayerIn = true;
             }
             else if (other.gameObject.tag == "Robot")
             {
-                Debug.Log("Robot is IN");
-
                 robotPlayerIn = true;
             }
 
@@ -83,17 +80,12 @@ public class Doorway : MonoBehaviour, IActivatable
     }
     public void TriggerLeave(Collider other)
     {
-        Debug.Log("OnTriggerLEave");
         if (other.gameObject.tag == "Human")
         {
-            Debug.Log("Human is OUT");
-
             humanPlayerIn = false;
         }
         else if (other.gameObject.tag == "Robot")
         {
-            Debug.Log("Robot is OUT");
-
             robotPlayerIn = false;
         }
     }

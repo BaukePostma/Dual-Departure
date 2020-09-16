@@ -98,9 +98,9 @@ public class Partner : Agent
         // Receives signals and assigns rewards
 
         // Actions, size = 2
-        Vector3 controlSignal = Vector3.zero;
-        controlSignal.x = vectorAction[0];
-        controlSignal.z = vectorAction[1];
+        //Vector3 controlSignal = Vector3.zero;
+        //controlSignal.x = vectorAction[0];
+        //controlSignal.z = vectorAction[1];
         // robotChar.AddForce(controlSignal * speed);
 
         // No idea if this works
@@ -113,11 +113,10 @@ public class Partner : Agent
         }
         // Rewards
         float distanceToTarget = Vector3.Distance(this.transform.localPosition, levelEnd.transform.localPosition);
-
+        Debug.Log(distanceToTarget);
         // Reached target
-        if (distanceToTarget < 1.42f && levelEnd.isActive)
+        if (distanceToTarget < 2.5f && levelEnd.isActive)
         {
-           // scoreText.text = "Jackpot";
             resetLevel();
             SetReward(1.0f);
             EndEpisode();
@@ -135,7 +134,7 @@ public class Partner : Agent
         float distancetopressure = Vector3.Distance(plate.transform.position, boulder.transform.position);
         if (distancetopressure < 0.5f)
         {
-           // SetReward(0.2f);
+            SetReward(0.2f);
             // SetReward(5 - distancetopressure);
         }
         //else

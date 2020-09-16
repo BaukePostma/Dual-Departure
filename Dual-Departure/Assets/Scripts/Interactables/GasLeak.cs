@@ -55,13 +55,8 @@ public class GasLeak : MonoBehaviour
     {
         if (isActive == true && other.gameObject.tag == "Human")
         {
-            Debug.Log(isActive);
-            Debug.Log("Oh Noes Human hit by gas. Respawn?");
             other.GetComponent<PlayerController>().Kill();
-
             gameState.Loader.ResetLevel(2);
-            //Scene scene = SceneManager.GetActiveScene();
-            //StartCoroutine(ResetLevel());
 
         }else if (isActive == true && other.gameObject.GetComponent<PushableBoulder>())
         {

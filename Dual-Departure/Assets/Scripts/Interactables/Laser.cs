@@ -32,15 +32,10 @@ public class Laser : MonoBehaviour
                 if (hit.collider.tag == "Human" || hit.collider.tag == "Robot")
                 {
                     var player = hit.collider.GetComponent<PlayerController>();
-                    if (player.HasTool("HeavyPlateTool"))
+                    if (!player.HasTool("HeavyPlateTool"))
                     {
-                        Debug.Log("Target has HeavyPlateTool");
-                    }
-                    else
-                    {
-                        Debug.Log("Target does not have HeavyPlateTool");
                         hit.collider.GetComponent<PlayerController>().Kill();
-
+                        Debug.Log("Target has HeavyPlateTool");
                     }
                 }
                 // hit.collider.gameObject.transform.position += new Vector3(0,50,0);

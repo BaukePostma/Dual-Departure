@@ -195,6 +195,10 @@ public  class PlayerController : MonoBehaviour
 
         PlayerMovement.MoveCharacter(horizontal, vertical);
     }
+    /// <summary>
+    /// Cast a ray forward from this character. Highlight and interact with the first object as needed.
+    /// </summary>
+    /// <param name="interactAxisInput">Whether or not the interact key was pressed for the current frame. Should be a 0 or a 1 . Should be a boolean</param>
     public void CheckForObject( float interactAxisInput)
     {
         RaycastHit hit;
