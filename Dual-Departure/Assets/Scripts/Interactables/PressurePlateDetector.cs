@@ -7,7 +7,8 @@ public class PressurePlateDetector : MonoBehaviour
     //  public Collider trigger;
     private Collider trigger;
     public GameObject TargetToDetect;
-
+    public bool OnlyActivateOnce = true;
+    private bool alreadyTriggerd = false;
     public AbstractActivatable PlatePressedTarget;
 
     private bool isSinking;
@@ -36,13 +37,18 @@ public class PressurePlateDetector : MonoBehaviour
 
     private  void OnTriggerEnter(Collider other)
     {
-        // Check if other === TargetToDetect.  If true, call Activate() on other.
-        if (GameObject.ReferenceEquals(other.gameObject, TargetToDetect))
+        if (OnlyActivateOnce && !alreadyTriggerd || !OnlyActivateOnce)
         {
-            Debug.Log("Target detected");
-            PlatePressedTarget.Activate();
-            Sink();
+            // Check if other === TargetToDetect.  If true, call Activate() on other.
+            if (GameObject.ReferenceEquals(other.gameObject, TargetToDetect))
+            {
+                alreadyTriggerd = true;
+                Debug.Log("Target detected");
+                PlatePressedTarget.Activate();
+                Sink();
+            }
         }
+       
     }
 
     private void Sink()

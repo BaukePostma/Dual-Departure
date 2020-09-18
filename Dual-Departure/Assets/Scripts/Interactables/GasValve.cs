@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GasValve : baseInteractable
 {
-    public GasLeak[] leaks;
+    public AbstractActivatable[] leaks;
     public Animator anim;
 
     public override void Interact(PlayerController player)
@@ -13,7 +13,7 @@ public class GasValve : baseInteractable
         Debug.Log("Interact called");
         foreach (var leak in leaks)
         {
-            leak.Toggle();
+            leak.Activate();
         }
     }
 

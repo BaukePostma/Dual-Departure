@@ -16,7 +16,7 @@ public class MagnetTool : ActiveTool
         base.Use(player);
 
         RaycastHit hit;
-        if (Physics.Raycast(player.transform.position, player.transform.forward, out hit, 15f))
+        if (Physics.Raycast(player.transform.position, player.transform.forward, out hit, 60f))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
 

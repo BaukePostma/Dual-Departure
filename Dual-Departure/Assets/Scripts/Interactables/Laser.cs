@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class Laser : AbstractActivatable
 {
-    bool isActive = true;
     public LineRenderer line;
     public ParticleSystem impactSparks;
 
@@ -24,8 +23,7 @@ public class Laser : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, this.transform.forward, out hit, Mathf.Infinity))
             {
-                Debug.DrawLine(this.transform.position, hit.point);
-                Debug.Log(hit.point);
+
                 line.SetPosition(1, hit.point);
                 impactSparks.transform.position = hit.point;
              
@@ -40,13 +38,30 @@ public class Laser : MonoBehaviour
                 }
                 // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
             }
-            Debug.Log("No Hit");
+        
         }
        
     }
 
-    void Toggle()
+    public void Toggle()
     {
+        Debug.Log("Toggle called");
+        if (isActive)
+        {
+            isActive = false;
+            line.enabled = false;
+            impactSparks.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        }
+        else
+        {
+            isActive = true;
+            line.enabled = true;
+            impactSparks.Play();
+        }
+    }
 
+    public override void Activate()
+    {
+        Toggle();
     }
 }

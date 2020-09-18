@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GasLeak : MonoBehaviour
+public class GasLeak : AbstractActivatable
 {
-    public bool isActive;
     private ParticleSystem gas;
     private GameState gameState;
 
@@ -49,16 +48,17 @@ public class GasLeak : MonoBehaviour
         if (isActive == true && other.gameObject.tag == "Human")
         {
             other.GetComponent<PlayerController>().Kill();
-           // gameState.Loader.ResetLevel(2);
-
-        }else if (isActive == true && other.gameObject.GetComponent<PushableBoulder>())
+        }else if  (other.gameObject.GetComponent<PushableBoulder>() && isActive == true )
         {
             other.gameObject.GetComponent<PushableBoulder>().ApplyForce(this.transform.forward);
+        }else if(other.gameObject.GetComponent<MagneticBoulder>() && isActive == true)
+        {
+            other.gameObject.GetComponent<MagneticBoulder>().ApplyForce(this.transform.forward);
         }
     }
-    //IEnumerator ResetLevel()
-    //{
-    //    yield return new WaitForSeconds(2);
-    //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    //}
+
+    public override void Activate()
+    {
+        Toggle();
+    }
 }

@@ -13,6 +13,12 @@ public class MagneticBoulder : MonoBehaviour, IIsMagnetic
     {
         rBody = GetComponent<Rigidbody>();
     }
+    public void ApplyForce(Vector3 direction)
+    {
+
+        rBody.AddForce(direction.normalized * (magneticForce));
+    }
+
     public void ApplyMagneticForce(Vector3 magPosition, float distance)
     {
         rBody.AddForce(-magPosition.normalized / distance * magneticForce );
