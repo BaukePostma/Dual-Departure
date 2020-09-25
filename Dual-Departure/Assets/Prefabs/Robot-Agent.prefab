@@ -17,6 +17,9 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 500
   levelEnd: {fileID: 0}
+  boulder: {fileID: 0}
+  plate: {fileID: 0}
+  scoreText: {fileID: 0}
   speed: 1
 --- !u!114 &548601753
 MonoBehaviour:
@@ -56,6 +59,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 10
   TakeActionsBetweenDecisions: 1
+--- !u!114 &8776889978652935215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4963976945483149554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.9019475, g: 0, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &1885194477515377413
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,6 +84,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4023636717596962757, guid: 7e6c1ef61cf81264298081b451c359b3,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4023636717596962757, guid: 7e6c1ef61cf81264298081b451c359b3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9d16bc384714508459f366f7fd319ca9, type: 2}
     - target: {fileID: 6830299104343849867, guid: 7e6c1ef61cf81264298081b451c359b3,
         type: 3}
       propertyPath: m_Enabled

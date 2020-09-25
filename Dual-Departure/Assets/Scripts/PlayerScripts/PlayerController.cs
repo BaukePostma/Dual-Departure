@@ -150,6 +150,13 @@ public  class PlayerController : MonoBehaviour
         if (newTool is ActiveTool)
         {
             activeTool = newTool as ActiveTool;
+           
+
+            state.UI.SetActiveTool(activeTool);
+
+            //state.UI.ActiveToolImage.overrideSprite = x;
+           // state.UI.ActiveToolImage.color = new Color(255, 255, 255, 1);
+            //  PlayerImage.sprite = Resources.Load<Sprite>("Images/RobotFace");
         }
     }
     public bool HasTool(BaseTool tool)

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class MagnetTool : ActiveTool
 {
-    
+     
   private void Start()
     {
         this.toolName = "MagnetTool";
         this.toolDescription = "Pull magnetic objects towards you";
-        this.spritePath = "Magnet";
+        this.spritePath = "Images/Magnet";
     }
     public override void Use(PlayerController player)
     {

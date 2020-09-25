@@ -41,6 +41,7 @@ GameObject:
   - component: {fileID: 7105289839439855193}
   - component: {fileID: 7105289839439855192}
   - component: {fileID: 7105289839439855142}
+  - component: {fileID: 9086439631735167220}
   m_Layer: 0
   m_Name: Human
   m_TagString: Human
@@ -81,8 +82,6 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
-  character: {fileID: 5963801826909853025}
-  characterController: {fileID: 0}
   toolList: []
   IsHumanChracter: 1
   IsControlledByAI: 0
@@ -104,6 +103,24 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9086439631735167220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105289839439855194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.7921569, b: 0.43137255, a: 1}
+  outlineWidth: 3
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &8591478471309532634
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &703695469569885134
 Transform:
   m_ObjectHideFlags: 0
@@ -280,12 +297,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5780c455ed20fd1429b76fec0b4ddfaa, type: 3}
---- !u!1 &5963801826909853025 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 5780c455ed20fd1429b76fec0b4ddfaa,
-    type: 3}
-  m_PrefabInstance: {fileID: 2441587888363064424}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7248816215053789042 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 5780c455ed20fd1429b76fec0b4ddfaa,

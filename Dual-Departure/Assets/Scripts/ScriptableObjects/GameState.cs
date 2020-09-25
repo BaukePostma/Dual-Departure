@@ -35,7 +35,19 @@ public class GameState : ScriptableObject
             return _loader;
         }
     }
-
+    // Keep a reference to the user interface in the current scene.
+    private UserInterface _ui;
+    public UserInterface UI
+    {
+        get
+        {
+            if (!_ui)
+                _ui = FindObjectOfType<UserInterface>();
+            if (!_loader)
+                _ui = Instantiate(Resources.Load<UserInterface>("UserInterface"));
+            return _ui;
+        }
+    }
     // Gamestate logic to keep track of across screens
     public enum GameMode
     {
