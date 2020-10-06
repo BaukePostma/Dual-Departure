@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for character movement. Messy code, but needed so that the neural network can fire the same events as a human
+/// </summary>
 public class baseMovement : MonoBehaviour
 {
     //Controls
@@ -17,44 +20,36 @@ public class baseMovement : MonoBehaviour
     public LayerMask groundMask;
     public float gravity = -9.81f;
     bool isGrounded;
-
     public bool isDying = false;
   
     protected CharacterController characterController;
-        
   
-    //public baseMovement(CharacterController player, string horizontal, string vertical, string interact)
-    //{
-    //    characterController = player;
-    //    HorizontalAxis = horizontal;
-    //    VerticalAxis = vertical;
-    //    Interact = interact;
-    //}
-
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-      //  characterController.detectCollisions = false;
     }
 
     private void OnEnable()
     {
         characterController = GetComponent<CharacterController>();
-  
     }
 
+    /// <summary>
+    /// Gets called every frame. Determines how much a character should move this framne 
+    /// </summary>
+    /// <param name="moveHorizontal"></param>
+    /// <param name="moveVertical"></param>
     public void MoveCharacter(float moveHorizontal, float moveVertical)
     {
         if (isDying)
         {
-            // Do some dying things
+            // Do some silly dying things
             transform.Rotate(transform.position, 15);
-           
         }
         else
         {
+            // Calculate falling 
             isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
-
             if (isGrounded && Velocity.y < 0)
             {
                 Velocity.y = -2f;
@@ -62,23 +57,20 @@ public class baseMovement : MonoBehaviour
             Vector3 Movement = new Vector3(moveHorizontal, 0, moveVertical).normalized;
             characterController.Move(Movement * Speed * Time.deltaTime);
             characterController.Move(Velocity * Time.deltaTime);
-
-            // Movement.x -= 90;
             Velocity.y += gravity * Time.deltaTime;
-            //transform.localRotation = Quaternion.LookRotation(Movement).normalized;
+
+            // Charactermodel rotation
             if (Movement.magnitude > 0.1)
             {
-                // Rotation
                 Vector3 rotVector = new Vector3(Movement.x - 90, 0f, Movement.z);
                 var RotationDriveMode = Quaternion.LookRotation(Movement);
-                //character.transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
                 transform.localRotation = Quaternion.LookRotation(Movement, Vector3.up);
             }
         }
       
     }
     /// <summary>
-    /// Called from the controller in order to stop movement
+    /// Called from the controller in order to stop movement while the level is ending
     /// </summary>
     public void StartDying()
     {

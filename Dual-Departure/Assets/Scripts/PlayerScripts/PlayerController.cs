@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Main class handling player movement, inputs,death and tool usage
+/// </summary>
 public  class PlayerController : MonoBehaviour
 {
     private GameState state;
@@ -11,8 +14,6 @@ public  class PlayerController : MonoBehaviour
     public Transform groundcheck;
     public LayerMask groundMask;
 
-    //public GameObject character;
-    //public CharacterController characterController;
     //Tools
     public List<BaseTool> toolList;
     private ActiveTool activeTool;
@@ -41,13 +42,13 @@ public  class PlayerController : MonoBehaviour
    // private LevelLoader loader;
     void Start()
     {
-        //loader
-
         SetPlayerControls();
         state = GameState.Instance;
+
+        // If this class is used by a robot, dont do updates. Else use unity events to register keypresses
         if (IsControlledByAI)
         {
-            // Load brain or something
+            // Load brain if this character is controlled by a NN
             PlayerMovement = gameObject.AddComponent<RobotMovement>();
         }
         else
@@ -55,19 +56,11 @@ public  class PlayerController : MonoBehaviour
             SetPlayerControls();
             PlayerMovement = gameObject.AddComponent<HumanMovement>();
         }
-       
-        
-
-        // Initialise controls
 
         PlayerMovement.groundcheck = groundcheck;
         PlayerMovement.groundMask = groundMask;
         PlayerMovement.HorizontalAxis = HorizontalAxis;
         PlayerMovement.VerticalAxis = VerticalAxis;
-       // PlayerMovement.Interact = Interact;
-        //PlayerMovement.UseTool = UseTool;
-
-       
     }
 
     // Update is called once per frame
@@ -77,10 +70,6 @@ public  class PlayerController : MonoBehaviour
         {
             Kill();
         }
-        // Movement logic , move this to a seperate class later
-
-        // PlayerMovement.Move();
-
         // Interact logic
         CheckForObject(Input.GetAxisRaw(Interact));
 
@@ -95,19 +84,16 @@ public  class PlayerController : MonoBehaviour
 
     private void InteractUpdate(RaycastHit hit)
     {
-
-        //Debug.Log(Interact + " pressed.Time since last interact: " + interactCooldownCounter );
         if (interactCooldownCounter >= interactCooldown)
         {
             interactCooldownCounter = 0;
-              //  Debug.Log("Interacting. Time since last interact: " + interactCooldownCounter);
                 if (hit.collider.gameObject.GetComponent<baseInteractable>() != null)
                 {
                     hit.collider.gameObject.GetComponent<baseInteractable>().Interact(this);
                 }
         }
-
     }
+
     private void HighlightUpdate(RaycastHit hit)
     {
             
@@ -117,18 +103,6 @@ public  class PlayerController : MonoBehaviour
         }
     }
 
-    //private RaycastHit CheckForward()
-    //{
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2f))
-    //    {
-    //        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-    //        Debug.Log("HIT");
-
-    //        // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
-    //    }
-    //    return hit;
-    //}
     public void UseActiveTool()
     {
         Debug.Log("UseActiveTool Called");
@@ -137,26 +111,13 @@ public  class PlayerController : MonoBehaviour
 
     public void PickUpTool(BaseTool tool)
     {
-        //Type type = typeof(MyObject<>).MakeGenericType(objectType);
-        // Type type = tool.GetType();
         Type type = tool.GetType();
-        // BaseTool newTool = (BaseTool)Activator.CreateInstance(type);
-
         BaseTool newTool = gameObject.AddComponent(type) as BaseTool;
-
-        //objToolList.AddComponent<Type>();
-
         toolList.Add(newTool);
         if (newTool is ActiveTool)
         {
             activeTool = newTool as ActiveTool;
-           
-
             state.UI.SetActiveTool(activeTool);
-
-            //state.UI.ActiveToolImage.overrideSprite = x;
-           // state.UI.ActiveToolImage.color = new Color(255, 255, 255, 1);
-            //  PlayerImage.sprite = Resources.Load<Sprite>("Images/RobotFace");
         }
     }
     public bool HasTool(BaseTool tool)
@@ -171,12 +132,14 @@ public  class PlayerController : MonoBehaviour
         return false;
  
     }
-    /**
-     * Compares the input string to the c# classnames of collected tools
-     * */
+
+    /// <summary>
+    /// Check if the current player has a specific tool
+    /// </summary>
+    /// <param name="Classname to compare against"></param>
+    /// <returns></returns>
     public bool HasTool(string toolClassName)
     {
-
         foreach (var collectedTool in toolList)
         {
             if (collectedTool.GetType().Name == toolClassName)
@@ -185,23 +148,23 @@ public  class PlayerController : MonoBehaviour
             }
         }
         return false;
-
     }
+
     public void Kill()
     {
         isDying = true;
         PlayerMovement.isDying = true;
-
         state.Loader.ResetLevel(2f);
     }
+
     /// <summary>
     /// AI-specific move function. Needed for ML-agents
     /// </summary>
     public void MoveRobot(float horizontal, float vertical)
     {
-
         PlayerMovement.MoveCharacter(horizontal, vertical);
     }
+
     /// <summary>
     /// Cast a ray forward from this character. Highlight and interact with the first object as needed.
     /// </summary>
@@ -212,20 +175,13 @@ public  class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, this.transform.forward, out hit, 2.5f))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            //Debug.Log("HIT");
-            //  interactAxisInput
             if (interactAxisInput == 1)
             {
                 InteractUpdate(hit);
             }
-              
             HighlightUpdate(hit);
-
-            // hit.collider.gameObject.transform.position += new Vector3(0,50,0);
         }
-
         interactCooldownCounter += Time.deltaTime;
-       // toolCountdownCounter += Time.deltaTime;
     }
 
     /// <summary>
@@ -234,19 +190,6 @@ public  class PlayerController : MonoBehaviour
     /// </summary>
     private void SetPlayerControls()
     {
-        //if (IsHuman)
-        //{
-        //    HorizontalAxis = "Horizontal";
-        //    VerticalAxis = "Vertical";
-        //    Interact = "Interact";
-        //}
-        //else
-        //{
-        //    HorizontalAxis = "2-Horizontal";
-        //    VerticalAxis = "2-Vertical";
-        //    Interact = "2-Interact";
-        //}
-
         if (IsHumanChracter)
         {
             HorizontalAxis = "Horizontal";

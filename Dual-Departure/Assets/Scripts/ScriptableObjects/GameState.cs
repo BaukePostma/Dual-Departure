@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Singleton class that handles functionaliteit that needs to be kept between levels,such as collected tools.
+/// Also keeps track of other singleton object such as the levelloader and the user interface
+/// </summary>
 public class GameState : ScriptableObject
 {
 
@@ -12,14 +16,13 @@ public class GameState : ScriptableObject
         {
             if (!_instance)
                    _instance = FindObjectOfType<GameState>();
-               // _instance = Resources.FindObjectsOfTypeAll<GameState>();
             if (!_instance)
                 _instance = CreateInstance<GameState>();
             return _instance;
         } }
     private GameState() { }
 
-    // Keep a reference to the levelloader in the current scene
+    // Store a reference to the levelloader in the current scene
     private  LevelLoader _loader;
     public LevelLoader Loader
     {
@@ -29,13 +32,10 @@ public class GameState : ScriptableObject
                 _loader = FindObjectOfType<LevelLoader>();
             if (!_loader)
                 _loader = Instantiate(Resources.Load<LevelLoader>("LevelLoader")); 
-            // _instance = Resources.FindObjectsOfTypeAll<GameState>();
-            //if (!_loader)
-            //    _loader = CreateInstance<LevelLoader>();
             return _loader;
         }
     }
-    // Keep a reference to the user interface in the current scene.
+    // Store a reference to the user interface in the current scene.
     private UserInterface _ui;
     public UserInterface UI
     {
@@ -57,12 +57,13 @@ public class GameState : ScriptableObject
     }
     public enum AIType
     {
-        Follower,
+        Partner,
         Solver,
         ToMBuddy
     }
     public AIType currentAi;// = AIType.Solver;
     public GameMode currentMode = GameMode.LocalMultiplayer;
+
     // For multiplayer, keep track of the current players character for UI purposes
     public bool isCurrentPlayerHuman = true;
 
@@ -72,6 +73,7 @@ public class GameState : ScriptableObject
     private BaseTool[] robotToolList;
     private ActiveTool robotActiveTool;
 
+    // Save collected tools to the gamestate at the end of the level
     public void SaveToolLists(BaseTool[] humanTools, BaseTool[] robotTools)
     {
         this.humanToolList = humanTools;
@@ -86,6 +88,7 @@ public class GameState : ScriptableObject
         this.robotActiveTool = robotActiveTool;
     }
 
+    // Load collected tools at the start of the level
     public BaseTool[] getHumanTools()
     {
         return this.humanToolList;

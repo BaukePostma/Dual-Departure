@@ -10,7 +10,6 @@ public class GasValve : baseInteractable
     public override void Interact(PlayerController player)
     {
         anim.SetTrigger("Spin");
-        Debug.Log("Interact called");
         foreach (var leak in leaks)
         {
             leak.Activate();

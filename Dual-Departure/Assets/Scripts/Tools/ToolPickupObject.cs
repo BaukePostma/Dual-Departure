@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Pickup-object that gives a tool to the player when they touch it
+/// </summary>
 public class ToolPickupObject : MonoBehaviour
 {
-    //public GameObject Model;
     public BaseTool tool;
     public Material mat;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //mat = this.GetComponent<Material>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter(Collider collision)
     {
@@ -27,9 +17,9 @@ public class ToolPickupObject : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerController>().PickUpTool(this.tool);
             Destroy(this.gameObject);
+
             //debug
             mat.color = Color.blue;
-
         }
     }
 }

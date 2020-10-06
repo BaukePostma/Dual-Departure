@@ -8,8 +8,6 @@ public class GasLeak : AbstractActivatable
     private ParticleSystem gas;
     private GameState gameState;
 
-    private Coroutine resetLevel;
-    // Start is called before the first frame update
     void Start()
     {
         gameState = GameState.Instance;

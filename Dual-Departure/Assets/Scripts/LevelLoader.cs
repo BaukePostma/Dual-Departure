@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class LevelLoader : MonoBehaviour
 {
     public GameObject loadingScreen;
-    //public Slider slider;
 
     public Animator transition;
     public float transitionTime =1f;

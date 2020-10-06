@@ -4,6 +4,9 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 
+/// <summary>
+/// Class used to train and control the NN agent. Not being used in this verison of the game
+/// </summary>
 public class Partner : Agent
 {
     Camera cam;

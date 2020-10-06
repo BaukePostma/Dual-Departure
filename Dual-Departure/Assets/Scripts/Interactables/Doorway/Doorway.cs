@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Doorway :  AbstractActivatable
+/// <summary>
+/// The end of the level. 
+/// </summary>
+public class Doorway : AbstractActivatable
 {
-    /// <summary>
-    /// A doorway object handles transitions between two rooms
-    /// </summary>
     // public baseRoom from;
     // public baseRoom to;
-    public GameObject Door;
-    public GameObject DoorwayTrigger;
-
-    public string DebugLevelLoadString;
- 
-   
-
-    private bool humanPlayerIn;
-    private bool robotPlayerIn;
 
     public GameState gameState;
 
-    private void Transition(int index)
-    {
-        // Transition to new level index
-        SceneManager.LoadSceneAsync(index);
-    }
+    public GameObject Door;
+    public GameObject DoorwayTrigger;
+    public string DebugLevelLoadString;
+
+    //Check if both players are inside the Doorway trigger
+    private bool humanPlayerIn;
+    private bool robotPlayerIn;
+
+    //private void Transition(int index)
+    //{
+    //    SceneManager.LoadSceneAsync(index);
+    //}
     void Start()
     {
         gameState = GameState.Instance;
@@ -51,13 +49,9 @@ public class Doorway :  AbstractActivatable
         {
             gameState.Loader.LoadNextLevel();
         }
-        // TTemp
-     
-       // SceneManager.LoadSceneAsync(DebugLevelLoadString);
     }
     public void TriggerEnter(Collider other)
     {
-   
         if (isActive)
         {
             if (other.gameObject.tag == "Human")
@@ -74,10 +68,8 @@ public class Doorway :  AbstractActivatable
                 Transition();
             }
         }
-      
-        // If one player, send signal
-        // If two players, transition
     }
+
     public void TriggerLeave(Collider other)
     {
         if (other.gameObject.tag == "Human")
@@ -92,7 +84,6 @@ public class Doorway :  AbstractActivatable
 
     public override void Activate()
     {
-        Debug.Log("Doorway Activated");
         this.isActive = true;
         OpenDoor();
     }
@@ -105,11 +96,11 @@ public class Doorway :  AbstractActivatable
         }
         else
         {
-            Debug.Log("Doorway Activated");
             isActive = true;
             OpenDoor();
         }
     }
+
     private void OpenDoor()
     {
         //this.Door.transform.position += new Vector3(0, 1, 0);

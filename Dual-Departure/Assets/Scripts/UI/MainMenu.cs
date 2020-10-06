@@ -26,7 +26,6 @@ public class MainMenu : MonoBehaviour
     {
         state.currentMode = GameState.GameMode.LocalMultiplayer;
         levelLoader.LoadLevel("1_RescueRobot");
-        //SceneManager.LoadScene("Level1");
     }
 
     public void QuitGame()

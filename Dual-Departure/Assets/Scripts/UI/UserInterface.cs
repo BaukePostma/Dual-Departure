@@ -7,7 +7,6 @@ using TMPro;
 public class UserInterface : MonoBehaviour
 {
     GameState state;
-    //public PlayerController activePlayer;
     public Image PlayerImage;
 
     public Image  ActiveToolImage;
@@ -28,9 +27,7 @@ public class UserInterface : MonoBehaviour
         {
             SetTools(false);
         }
-       
     }
-
 
 /// <summary>
 /// Look at the tools stored inside GameState, load them into the current scene.
@@ -66,19 +63,20 @@ public class UserInterface : MonoBehaviour
             SetActiveTool(activeTool);
         }
 
-        // Set  tool list
-        // TODO because this takes a bit more time than imagined
+        // Set  tool list.  TODO because this takes a lot more time than planned.
     }
 
+    /// <summary>
+    /// Set the currently active tool
+    /// </summary>
+    /// <param name="tool"></param>
     public void SetActiveTool(ActiveTool tool)
     {
-        // Set  active tool
         ActiveToolText.text = tool.name;
-        // var x = Resources.Load<Sprite>("Images/Magnet");
          ActiveToolImage.sprite = Resources.Load<Sprite>(tool.spritePath);
         ActiveToolImage.color = new Color(255, 255, 255, 1);
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

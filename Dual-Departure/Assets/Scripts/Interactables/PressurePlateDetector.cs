@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PressurePlateDetector : MonoBehaviour
 {
-    //  public Collider trigger;
     private Collider trigger;
     public GameObject TargetToDetect;
     public bool OnlyActivateOnce = true;
